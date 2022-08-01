@@ -1,0 +1,107 @@
+`include "global.v"
+module key (
+    input CLK_25M,
+    input LeftKey,
+    input RightKey,
+    input RotateKey,
+    input ResetKey,
+    input StartKey,
+    input PauseKey,
+
+    output reg key_left,
+    output reg key_right,
+    output reg key_rotate,
+    output reg key_reset,
+    output reg key_start,
+    output reg key_pause
+);
+
+reg last_LeftKey;
+reg last_RightKey;
+reg last_RotateKey;
+
+reg last_ResetKey;
+reg last_StartKey;
+reg last_PauseKey;
+
+initial begin
+    last_LeftKey = `OFF; 
+    last_RightKey = `OFF; 
+    last_RotateKey = `OFF; 
+
+    last_ResetKey = `OFF; 
+    last_StartKey = `OFF;
+    last_PauseKey = `OFF;
+
+
+    key_left = `OFF;
+    key_right = `OFF;
+    key_rotate = `OFF;
+    key_reset = `OFF;
+    key_start = `OFF;
+    key_pause = `OFF;
+end
+
+always @(posedge CLK_25M) begin
+    if(ResetKey != last_ResetKey) begin
+        if(ResetKey == `ON) begin
+            key_reset <= `ON;
+        end
+        last_ResetKey <= ResetKey;
+    end
+    else key_reset <= `OFF;
+end
+
+always @(posedge CLK_25M) begin
+    if(StartKey != last_StartKey) begin
+        if(StartKey == `ON) begin
+            key_start <= `ON;
+        end
+        last_StartKey <= StartKey;
+    end
+    else key_start <= `OFF;
+end
+
+always @(posedge CLK_25M) begin
+    if(PauseKey != last_PauseKey) begin
+        if(PauseKey == `ON) begin
+            key_pause <= `ON;
+        end
+        last_PauseKey <= PauseKey;
+    end
+    else key_pause <= `OFF;
+end
+
+//SW
+always @(posedge CLK_25M) begin
+    if(LeftKey != last_LeftKey) begin
+        key_left <= `ON;
+        last_LeftKey <= LeftKey;
+    end
+    else key_left <= `OFF;
+end
+
+always @(posedge CLK_25M) begin
+    if(RightKey != last_RightKey) begin
+        key_right <= `ON;
+        last_RightKey <= RightKey;
+    end
+    else key_right <= `OFF;
+end
+
+always @(posedge CLK_25M) begin
+    if(RotateKey != last_RotateKey) begin
+        key_rotate <= `ON;
+        last_RotateKey <= RotateKey;
+    end
+    else key_rotate <= `OFF;
+end
+
+endmodule
+
+
+
+
+
+
+

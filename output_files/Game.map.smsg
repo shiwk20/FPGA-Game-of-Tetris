@@ -1,0 +1,5 @@
+Warning (10268): Verilog HDL information at key.v(101): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at key.v(117): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at key.v(132): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at key.v(147): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at next.v(29): always construct contains both blocking and non-blocking assignments

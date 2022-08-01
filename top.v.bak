@@ -1,0 +1,59 @@
+module top (
+    input CLK_50M,
+    
+    output VGA_CLK,
+    output VGA_BLANK,
+    output VGA_SYNC,
+    output VGA_HS,
+    output VGA_VS,
+    output [7:0] VGA_R,
+    output [7:0] VGA_G,
+    output [7:0] VGA_B
+);
+
+wire CLK_25M;
+wire [9:0] X;
+wire [9:0] Y;
+wire [23:0] color_RGB;
+wire IsTitle;
+wire IsWall;
+
+div div (
+    .CLK_50M       (CLK_50M),
+
+    .CLK_25M       (CLK_25M)
+);
+
+display display (
+    .IsTitle       (IsTitle),
+    .IsWall        (IsWall),
+
+    .color_RGB     (color_RGB)
+);
+
+backgroud backgroud (
+    .CLK_25M       (CLK_25M),
+    .X             (X),
+    .Y             (Y),
+
+    .IsTitle       (IsTitle),
+    .IsWall        (IsWall)
+);
+
+VGA VGA (
+    .CLK_25M       (CLK_25M),
+    .color_RGB     (color_RGB),
+    
+    .VGA_CLK       (VGA_CLK),
+	.VGA_HS        (VGA_HS),
+	.VGA_VS        (VGA_VS),
+	.VGA_BLANK     (VGA_BLANK),
+	.VGA_SYNC      (VGA_SYNC),
+	.VGA_R         (VGA_R),
+	.VGA_G         (VGA_G),
+	.VGA_B         (VGA_B),
+	.X             (X),
+	.Y             (Y)
+); 
+
+endmodule

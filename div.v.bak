@@ -1,0 +1,21 @@
+module div(
+    input CLK_50M,
+    output reg CLK_25M,
+    output reg CLK_1
+);
+reg [19:0] count;
+initial count = 1'b1;
+always@(posedge CLK_50M) begin
+    CLK_25M <= ~CLK_25M;
+end
+
+always@(posedge CLK_50M) begin
+    count <= count + 1'b1;
+    if(count == 20'd250000) begin
+        CLK_1 <= ~CLK_1;
+        count <= 1'b1;
+    end
+end
+
+
+endmodule

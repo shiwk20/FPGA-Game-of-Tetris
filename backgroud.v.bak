@@ -1,0 +1,201 @@
+`include "global.v"
+module backgroud(
+    input CLK_25M,
+    input [9:0] X,
+    input [9:0] Y,
+
+    output reg [23:0] color_RGB
+
+);
+
+reg [31:0] line [159:0];
+initial begin
+    line[0] = 160'h0000000000000000000000000000000000000000;
+    line[1] = 160'h0000000000000000000000000000000000000000;
+    line[2] = 160'h0000000000000000000800000000000000000000;
+    line[3] = 160'h0000780000000F00000F0000000F000000000000;
+    line[4] = 160'h00007C00001FFFC0038F0080000FC0000000F000;
+    line[5] = 160'h01C07C0001FFFFE003CF01E00007C0000000F000;
+    line[6] = 160'h01E03DE001FE73E003FF83E00003C0000780F000;
+    line[7] = 160'h03E3BCE001CE73C003FF8FC00001800007C0F000;
+    line[8] = 160'h03E7BC6001EEFFC00FFF3F0000001FE007C0F000;
+    line[9] = 160'h03CFBC0001FFFF8003CF38000007FFF007C0F700;
+    line[10] = 160'h07DF3FC001FFFF8003FF3C0000FFFFF003C0FF80;
+    line[11] = 160'h0787BFE000FF800003FF3C087FFFFFF803EFFFC0;
+    line[12] = 160'h0F07FFE00003C40003EF3FFC3FFF801803F7FFC0;
+    line[13] = 160'h1F87FC000007FF0003AF3FFC1F8F80001FE0E780;
+    line[14] = 160'h1F8FFCC0000FFF0001FF3FC00C0FF8001F81E780;
+    line[15] = 160'h27BF9FE0003FFF0001EF3DE0001FFC000381EF00;
+    line[16] = 160'h078FDFE0007C1E00018F39E0003FFE000391FFF0;
+    line[17] = 160'h07878FC000FC3E0001FFB9E0003C7C0003E7FFF0;
+    line[18] = 160'h078F8F80018F7C001FFFF9E0007C7C0003FFFBF0;
+    line[19] = 160'h07FF8F000007F8007FC031E000F8780003CFF000;
+    line[20] = 160'h07BFBF800002F8003E1C71E001F0F8000F83F800;
+    line[21] = 160'h079787C00001F00001CE61E007C0F0001F03FE00;
+    line[22] = 160'h078783E40007E00003CFE1E00F89F0003E07BF00;
+    line[23] = 160'h079F83FC000FC0000786C1E01C0FE0003C0F9FC0;
+    line[24] = 160'h079F81FC001F80000F0101C00007E000181F0FF0;
+    line[25] = 160'h038F00FC007E0000000000C00007C000003C07FC;
+    line[26] = 160'h0302007801F80000000000C00003800000F003F0;
+    line[27] = 160'h0000001803800000000000800000000000000000;
+    line[28] = 160'h0000000000000000000000000000000000000000;
+    line[29] = 160'h0000000000000000000000000000000000000000;
+    line[30] = 160'h0000000000000000000000000000000000000000;
+    line[31] = 160'h0000000000000000000000000000000000000000;
+end
+//汉字-俄罗斯方块
+// parameter 
+// 	   char_line00=160'h0000000000000000000000000000000000000000,
+//     char_line01=160'h0000000000000000000000000000000000000000,
+//     char_line02=160'h0000000000000000000800000000000000000000,
+//     char_line03=160'h0000780000000F00000F0000000F000000000000,
+//     char_line04=160'h00007C00001FFFC0038F0080000FC0000000F000,
+//     char_line05=160'h01C07C0001FFFFE003CF01E00007C0000000F000,
+//     char_line06=160'h01E03DE001FE73E003FF83E00003C0000780F000,
+//     char_line07=160'h03E3BCE001CE73C003FF8FC00001800007C0F000,
+//     char_line08=160'h03E7BC6001EEFFC00FFF3F0000001FE007C0F000,
+//     char_line09=160'h03CFBC0001FFFF8003CF38000007FFF007C0F700,
+//     char_line0a=160'h07DF3FC001FFFF8003FF3C0000FFFFF003C0FF80,
+//     char_line0b=160'h0787BFE000FF800003FF3C087FFFFFF803EFFFC0,
+//     char_line0c=160'h0F07FFE00003C40003EF3FFC3FFF801803F7FFC0,
+//     char_line0d=160'h1F87FC000007FF0003AF3FFC1F8F80001FE0E780,
+//     char_line0e=160'h1F8FFCC0000FFF0001FF3FC00C0FF8001F81E780,
+//     char_line0f=160'h27BF9FE0003FFF0001EF3DE0001FFC000381EF00,
+//     char_line10=160'h078FDFE0007C1E00018F39E0003FFE000391FFF0,
+//     char_line11=160'h07878FC000FC3E0001FFB9E0003C7C0003E7FFF0,
+//     char_line12=160'h078F8F80018F7C001FFFF9E0007C7C0003FFFBF0,
+//     char_line13=160'h07FF8F000007F8007FC031E000F8780003CFF000,
+//     char_line14=160'h07BFBF800002F8003E1C71E001F0F8000F83F800,
+//     char_line15=160'h079787C00001F00001CE61E007C0F0001F03FE00,
+//     char_line16=160'h078783E40007E00003CFE1E00F89F0003E07BF00,
+//     char_line17=160'h079F83FC000FC0000786C1E01C0FE0003C0F9FC0,
+//     char_line18=160'h079F81FC001F80000F0101C00007E000181F0FF0,
+//     char_line19=160'h038F00FC007E0000000000C00007C000003C07FC,
+//     char_line1a=160'h0302007801F80000000000C00003800000F003F0,
+//     char_line1b=160'h0000001803800000000000800000000000000000,
+//     char_line1c=160'h0000000000000000000000000000000000000000,
+//     char_line1d=160'h0000000000000000000000000000000000000000,
+//     char_line1e=160'h0000000000000000000000000000000000000000,
+//     char_line1f=160'h0000000000000000000000000000000000000000;
+
+reg[8:0] char_bit;
+
+always@(posedge CLK_25M) begin
+    if(X == 10'd240) char_bit <= 9'd160;   //当显示到240像素时准备开始输出图像数据
+    else if(X > 10'd240 && X < 10'd400)     //左边距屏幕240像素到400像素时    400=240+160（图像宽度）
+        char_bit <= char_bit - 1'b1;       //倒着输出图像信息 
+end
+		
+reg [159:0] tmp;
+always@(posedge CLK_25M) begin
+    if(X > 10'd240 && X <= 10'd400) begin   //X控制图像的横向显示边界：左边距屏幕左边240像素  右边界距屏幕左边界400像素
+		// case(Y)            //Y控制图像的纵向显示边界：从距离屏幕顶部160像素开始显示第一行数据
+        // 10'd20:
+        //     if(char_line00[char_bit])color_RGB<=`WHITE;  //如果该行有数据 则颜色为红色
+        //     else color_RGB<=`BLACK;                      //否则为黑色
+        // 10'd21:
+        //     if(char_line01[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd22:
+        //     if(char_line02[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd23:
+        //     if(char_line03[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd24:
+        //     if(char_line04[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK; 
+        // 10'd25:
+        //     if(char_line05[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd26:
+        //     if(char_line06[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK; 
+        // 10'd27:
+        //     if(char_line07[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd28:
+        //     if(char_line08[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK; 
+        // 10'd29:
+        //     if(char_line09[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd30:
+        //     if(char_line0a[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd31:
+        //     if(char_line0b[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd32:
+        //     if(char_line0c[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd33:
+        //     if(char_line0d[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd34:
+        //     if(char_line0e[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd35:
+        //     if(char_line0f[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd36:
+        //     if(char_line10[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd37:
+        //     if(char_line11[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd38:
+        //     if(char_line12[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd39:
+        //     if(char_line13[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd40:
+        //     if(char_line14[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd41:
+        //     if(char_line15[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd42:
+        //     if(char_line16[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd43:
+        //     if(char_line17[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd44:
+        //     if(char_line18[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd45:
+        //     if(char_line19[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd46:
+        //     if(char_line1a[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd47:
+        //     if(char_line1b[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd48:
+        //     if(char_line1c[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd49:
+        //     if(char_line1d[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd50:
+        //     if(char_line1e[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // 10'd51:
+        //     if(char_line1f[char_bit])color_RGB<=`WHITE;
+        //     else color_RGB<=`BLACK;
+        // default:
+        //     color_RGB<=`BLACK;   //默认颜色黑色
+        // endcase 
+        if(Y - 20 >= 0 && Y - 20 < 32) begin
+            tmp = line[Y - 20]; 
+            if(tmp[char_bit]) color_RGB<=`WHITE;
+            else color_RGB<=`BLACK;
+        end
+    end
+    else color_RGB<=`BLACK;             //否则黑色
+end
+
+endmodule

@@ -1,0 +1,22 @@
+//颜色
+`define BLACK     24'h000000
+`define RED       24'hFF0000
+`define GREEN     24'h00FF00
+`define BLUE      24'h0000FF
+`define YELLOW    24'hFFFF00
+`define SKY_BULE  24'h00FFFF
+`define PURPLE    24'hFF00FF
+`define GREY      24'hC0C0C0
+`define WHITE     24'hFFFFFF
+`define DimGrey   24'h696969
+
+
+
+//方块大小
+`define BLOCK_SIZE    'd15
+//游戏范围
+`define GAME_LENGTH 'd10
+`define GAME_WIDTH 'd20
+//附录范围
+`define APPENDIX_LENGTH 'd6
+

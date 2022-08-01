@@ -1,0 +1,21 @@
+module next (
+    input CLK_25M,
+    input IsUpdate,
+
+    output reg [2:0] next_type,
+    output IsNext
+
+);
+
+//通过LFSR(线性反馈移位寄存器)生成伪随机码
+always@(posedge CLK_25M) begin
+    if(IsUpdate == 1'b1) begin
+        next_type <= {$random} % 7 + 1;
+    end
+end
+
+
+endmodule
+
+
+
